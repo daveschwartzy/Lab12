@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,6 @@ namespace Lab12
     abstract class Player
     {
         private string name;
-        private string rosham;
 
         public string Name
         {
@@ -17,12 +17,25 @@ namespace Lab12
             set { name = value; }
         }
 
-        public string Rosham
+        private Roshambo choice;
+
+        public Roshambo Choice
         {
-            get { return rosham; }
-            set { rosham = value; }
+            get { return choice; }
+            set { choice = value; }
         }
 
-        public abstract string generateRoshambo(); 
+        public Player(string name)
+        {
+            this.name = name;
+        }
+
+        public abstract Roshambo GenerateRoshambo();
+
+        public override string ToString()
+        {
+            return $"{name}: {choice}\n";
+        }
     }
 }
+

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,97 +11,45 @@ namespace Lab12
     {
         static void Main(string[] args)
         {
-            int wins = 0;
-            int loss = 0;
-            bool repeat = true;
-            while (repeat) { 
-            HumanPlayer human = new HumanPlayer();
-            RandomPlayer random = new RandomPlayer();
-            DwayneJohnson dwayne = new DwayneJohnson();
             
+            List<Player> opponents = new List<Player>();
+            opponents.Add(new RandomPlayer("Ran Dumb"));
+            opponents.Add(new DwayneJohnson("Dwayne Johnson"));
 
-            Console.WriteLine("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-");
-            Console.WriteLine("Rock, Paper, Scissors Simulator");
-            Console.WriteLine("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-");
-            Console.WriteLine("Please enter your name: ");
-            string input = Console.ReadLine();
-            human.Name = input;
-            
-            Console.WriteLine($"Okay {human.GetName()}, would you like to play against 1. The Rock or 2. Owen Wilson? (Enter 1 or 2)");
-            string input2 = Console.ReadLine();
-                if (input2 == "1")
+            Console.WriteLine("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~");
+            Console.WriteLine("Welcome to the Rock Paper Scissors Simulator");
+            Console.WriteLine("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~\n");
+
+            string name = HumanPlayer.GetName("Please enter your name: ");
+            HumanPlayer human = new HumanPlayer(name);
+
+
+            bool again = true;
+            while(again)
+            {
+                int choose = Validator.ChooseOpponent($"Hi {human.Name}! Please select your opponent.\nChoose 1 for Ran Dumb or 2 for Dwayne Johnson.\n");
+                Roshambo choice = human.GenerateRoshambo();
+                human.Choice = choice;
+
+                if (opponents[choose] is RandomPlayer)
                 {
-                    Console.WriteLine($"Okay, {human.GetName()}, Rock, Paper, or Scissors? (R / P / S)");
-                    string input3 = Console.ReadLine().Trim().ToUpper();
-                    human.SetChoice(input3);
-                    human.generateRoshambo();
-                    dwayne.generateRoshambo();
-                    Console.WriteLine($"{human.GetName()}: {human.GetChoice()}");
-                    Console.WriteLine($"The Rock: {dwayne.GetRosham()}");
-
-                    if (human.GetChoice() == "rock")
-                    {
-                        Console.WriteLine("Draw!");
-                    }
-                    else if (human.GetChoice() == "paper")
-                    {
-                        Console.WriteLine("Congratulations! You win!");
-                        wins++;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You lose!");
-                        loss++;
-                    }
+                    Roshambo opponentChoice = ((RandomPlayer)opponents[choose]).GenerateRoshambo();
+                    (opponents[choose]).Choice = opponentChoice;
+                    string result = Validator.RoshamResults(human, opponents[choose], human.Choice, (opponents[choose]).Choice);
+                    Console.WriteLine(human.ToString() + opponents[choose].ToString() + result);
                 }
-                else if (input2 == "2")
+                else
                 {
-                    Console.WriteLine($"Okay, {human.GetName()}, Rock, Paper, or Scissors? (R / P / S)");
-                    string input4 = Console.ReadLine();
-                    human.SetChoice(input4);
-                    human.generateRoshambo();
-                    random.generateRoshambo();
-                    Console.WriteLine($"{human.GetName()}: {human.GetChoice()}");
-                    Console.WriteLine($"Owen Wilson: {random.GetRosham()}");
-
-                    if (human.GetChoice() == random.GetRosham())
-                    {
-                        Console.WriteLine("Draw!");
-                    }
-                    else if (human.GetChoice() == "rock" && random.GetRosham() == "scissors")
-                    {
-                        Console.WriteLine("Congratulations! You win!");
-                        wins++;
-                    }
-                    else if (human.GetChoice() == "scissors" && random.GetRosham() == "paper")
-                    {
-                        Console.WriteLine("Congratulations! You win!");
-                        wins++;
-                    }
-                    else if (human.GetChoice() == "paper" && random.GetRosham() == "rock")
-                    {
-                        Console.WriteLine("Congratulations! You win!");
-                        wins++;
-                    }
-                    else if (human.GetChoice() == "paper" && random.GetRosham() == "scissors")
-                    {
-                        Console.WriteLine("You lose!");
-                        loss++;
-                    }
-                    else if (human.GetChoice() == "rock" && random.GetRosham() == "paper")
-                    {
-                        Console.WriteLine("You lose!");
-                        loss++;
-                    }
-                    else if (human.GetChoice() == "scissors" && random.GetRosham() == "rock")
-                    {
-                        Console.WriteLine("You lose!");
-                        loss++;
-                    }
-                } repeat = Validator.DoAgain("Would you like to play again? (Y or N) ");
-                Console.WriteLine($"You won {wins} time(s) and lost {loss} time(s).");
+                    Roshambo opponentChoice = ((DwayneJohnson)opponents[choose]).GenerateRoshambo();
+                    (opponents[choose]).Choice = opponentChoice;
+                    string result = Validator.RoshamResults(human, opponents[choose], human.Choice, (opponents[choose]).Choice);
+                    Console.WriteLine(human.ToString() + opponents[choose].ToString() + result);
+                }
+                Console.WriteLine($"You won {Validator.win} time(s) and lost {Validator.lose} time(s).\n");
+                again = Validator.DoAgain("Would you like to play again? (Y or N)\n");
             }
             Console.WriteLine("Goodbye!");
+            Console.ReadLine();
         }
     }
 }

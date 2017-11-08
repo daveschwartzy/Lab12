@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +9,14 @@ namespace Lab12
 {
     class DwayneJohnson : Player
     {
-        public string GetRosham()
+        public DwayneJohnson(string name)
+              : base(name)
         {
-            return Rosham = Roshambo.rock.ToString();
+
         }
-        public override string generateRoshambo ()
+        public override Roshambo GenerateRoshambo()
         {
-            Random rand = new Random();
-            if (rand == rand)
-            {
-                return Rosham = Roshambo.rock.ToString();
-            }
-            return Roshambo.rock.ToString();
-        }
-        public override string ToString()
-        {
-            return $"{Rosham}";
+            return Roshambo.rock;
         }
     }
 }
