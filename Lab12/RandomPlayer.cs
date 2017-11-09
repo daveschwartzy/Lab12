@@ -15,6 +15,7 @@ namespace Lab12
         }
         Random rand = new Random();
 
+
         public override Roshambo GenerateRoshambo()
         {
             int randomchoice = rand.Next(3);

@@ -34,14 +34,12 @@ namespace Lab12
                 if (opponents[choose] is RandomPlayer)
                 {
                     Roshambo opponentChoice = ((RandomPlayer)opponents[choose]).GenerateRoshambo();
-                    (opponents[choose]).Choice = opponentChoice;
                     string result = Validator.RoshamResults(human, opponents[choose], human.Choice, (opponents[choose]).Choice);
                     Console.WriteLine(human.ToString() + opponents[choose].ToString() + result);
                 }
                 else
                 {
                     Roshambo opponentChoice = ((DwayneJohnson)opponents[choose]).GenerateRoshambo();
-                    (opponents[choose]).Choice = opponentChoice;
                     string result = Validator.RoshamResults(human, opponents[choose], human.Choice, (opponents[choose]).Choice);
                     Console.WriteLine(human.ToString() + opponents[choose].ToString() + result);
                 }
